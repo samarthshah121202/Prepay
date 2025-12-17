@@ -1,108 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Prepay — Split expenses, paid upfront</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prepay — paid upfront, split fairly</title>
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #ffffff;
-      color: #111;
-      line-height: 1.6;
+    :root{
+      --bg: #0b0f19;
+      --card: rgba(255,255,255,0.08);
+      --card2: rgba(255,255,255,0.12);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.70);
+      --stroke: rgba(255,255,255,0.14);
+      --shadow: 0 18px 50px rgba(0,0,0,0.45);
+      --radius: 22px;
     }
 
-    .container {
-      max-width: 720px;
+    * { box-sizing: border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(120,95,255,0.35), transparent 55%),
+        radial-gradient(900px 500px at 85% 30%, rgba(0,200,255,0.25), transparent 50%),
+        radial-gradient(900px 500px at 50% 95%, rgba(0,255,170,0.14), transparent 55%),
+        var(--bg);
+      overflow-x:hidden;
+    }
+
+    .wrap{
+      max-width: 980px;
       margin: 0 auto;
-      padding: 80px 24px;
+      padding: 72px 20px 56px;
     }
 
-    h1 {
-      font-size: 44px;
-      margin-bottom: 16px;
+    .nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      margin-bottom: 42px;
     }
 
-    h2 {
-      font-size: 22px;
-      margin-top: 40px;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
     }
 
-    p {
+    .logo{
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(120,95,255,0.9), rgba(0,200,255,0.7));
+      box-shadow: 0 10px 30px rgba(120,95,255,0.18);
+      border: 1px solid rgba(255,255,255,0.18);
+      display:grid;
+      place-items:center;
+      font-weight: 900;
+      color: rgba(255,255,255,0.95);
+    }
+
+    .pill{
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-size: 13px;
+      user-select:none;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 22px;
+      align-items:stretch;
+    }
+
+    @media (max-width: 860px){
+      .hero{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid var(--stroke);
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.06));
+      box-shadow: var(--shadow);
+      padding: 28px;
+      position: relative;
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(700px 260px at var(--mx, 50%) var(--my, 10%), rgba(255,255,255,0.14), transparent 60%);
+      pointer-events:none;
+      opacity:0.9;
+    }
+
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(34px, 4.5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.8px;
+    }
+
+    .sub{
+      margin: 0 0 18px;
+      color: var(--muted);
       font-size: 18px;
-      margin-bottom: 16px;
+      max-width: 55ch;
     }
 
-    .highlight {
-      font-weight: 600;
+    .bullets{
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      display:grid;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .bullets li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      margin-top: 6px;
+      background: rgba(255,255,255,0.7);
+      box-shadow: 0 0 0 6px rgba(255,255,255,0.06);
+      flex: 0 0 auto;
     }
 
-    .cta {
-      margin-top: 32px;
+    .form{
+      margin-top: 18px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
     }
 
-    .cta button {
-      padding: 14px 24px;
+    .input{
+      flex: 1 1 260px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .input input{
+      width:100%;
+      border:none;
+      outline:none;
+      background: transparent;
+      color: var(--text);
       font-size: 16px;
-      font-weight: 600;
-      border: none;
-      background: #000;
-      color: #fff;
-      cursor: pointer;
     }
 
-    footer {
-      margin-top: 80px;
+    .btn{
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.92);
+      color: #0b0f19;
+      font-weight: 800;
+      cursor:pointer;
+      transition: transform 140ms ease, filter 140ms ease;
+    }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(0.98); }
+    .btn:disabled{ opacity: 0.55; cursor:not-allowed; transform:none; }
+
+    .note{
+      margin-top: 10px;
+      color: rgba(255,255,255,0.62);
+      font-size: 13px;
+    }
+
+    .side h2{
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing:-0.2px;
+    }
+
+    .step{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      padding: 14px;
+      margin-top: 10px;
+      color: var(--muted);
       font-size: 14px;
-      color: #666;
+    }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(10,14,26,0.85);
+      border: 1px solid rgba(255,255,255,0.16);
+      color: rgba(255,255,255,0.92);
+      padding: 12px 14px;
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease, transform 200ms ease;
+      font-size: 14px;
+      max-width: min(560px, 92vw);
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-4px);
     }
   </style>
 </head>
+
 <body>
-
-  <div class="container">
-    <h1>Prepay</h1>
-
-    <p class="highlight">
-      A simpler way to split group expenses — everyone pays upfront.
-    </p>
-
-    <p>
-      Prepay is like Splitwise, but instead of settling up later,
-      everyone contributes money before the expense happens.
-    </p>
-
-    <p>
-      Once the group expense is finished, any leftover money is
-      split back to everyone <strong>proportionally</strong>.
-    </p>
-
-    <h2>How it works</h2>
-
-    <p>
-      1. Create a group expense (trip, dinner, event, shared fund)<br>
-      2. Everyone contributes upfront<br>
-      3. Pay expenses from the shared pool<br>
-      4. Leftover money is automatically split back
-    </p>
-
-    <h2>Why Prepay</h2>
-
-    <p>
-      No chasing people for money. No awkward reminders.
-      No uneven repayments. Everyone is settled from the start.
-    </p>
-
-    <div class="cta">
-      <button>Join the waitlist</button>
+  <div class="wrap">
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">P</div>
+        <div>Prepay</div>
+      </div>
+      <div class="pill">Like Splitwise — but paid upfront</div>
     </div>
 
-    <footer>
-      Prepay is currently in development.
-    </footer>
-  </div>
+    <div class="hero">
+      <section class="card main" id="mainCard">
+        <h1>Split group expenses.<br/>Everyone contributes first.</h1>
+        <p class="sub">
+          Prepay is a simpler version of Splitwise: your group pays into a shared pot upfront,
+          spends from it, and any leftover money gets split back to everyone proportionally.
+        </p>
 
-</body>
-</html>
+        <!-- Formspree: replace YOUR_FORM_ID in step 2 below -->
+        <form class="form" id="waitlistForm"
+              action="https://formspree.io/f/YOUR_FORM_ID"
+              method="POST">
+          <div class="input">
+            <span aria-hidden="true">✉️</span>
+            <input id="email" name="email" type="email" placeholder="Enter your email for updates" required />
+          </div>
+          <button class="btn" id="submitBtn" type="submit">Join the waitlist</button>
+        </form>
+
+        <div class="note">No spam. Just launch updates.</div>
+
+        <ul class="bullets">
+          <li><span class="dot"></span><span><strong>No chasing people</strong> — everyone is settled from the start.</span></li>
+          <li><span class="dot"></span><span><strong>Fair leftovers</strong> — any remaining balance is refunded proportionally.</span></li>
+          <li><span class="dot"></span><span><strong>Perfect for</strong> trips, dinners, events, house shares.</span></li>
+        </ul>
+      </section>
+
+      <aside class="card side" id="sideCard">
+        <h2>How it works</h2>
+        <div class="step"><strong>1)</strong> C
