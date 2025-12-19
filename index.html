@@ -9,12 +9,13 @@
     :root{
       --bg: #0b0f19;
       --card: rgba(255,255,255,0.08);
-      --card2: rgba(255,255,255,0.12);
       --text: rgba(255,255,255,0.92);
       --muted: rgba(255,255,255,0.70);
       --stroke: rgba(255,255,255,0.14);
       --shadow: 0 18px 50px rgba(0,0,0,0.45);
       --radius: 22px;
+      --good: rgba(0,255,170,0.20);
+      --bad: rgba(255,95,120,0.20);
     }
 
     * { box-sizing: border-box; }
@@ -74,6 +75,7 @@
       color: var(--muted);
       font-size: 13px;
       user-select:none;
+      white-space: nowrap;
     }
 
     .hero{
@@ -85,6 +87,7 @@
 
     @media (max-width: 860px){
       .hero{ grid-template-columns: 1fr; }
+      .pill{ display:none; }
     }
 
     .card{
@@ -118,7 +121,7 @@
       margin: 0 0 18px;
       color: var(--muted);
       font-size: 18px;
-      max-width: 55ch;
+      max-width: 58ch;
     }
 
     .bullets{
@@ -145,32 +148,38 @@
       flex: 0 0 auto;
     }
 
+    /* Form */
     .form{
       margin-top: 18px;
-      display:flex;
+      display:grid;
       gap: 10px;
-      flex-wrap: wrap;
-      align-items:center;
     }
 
-    .input{
-      flex: 1 1 260px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding: 12px 14px;
+    .field{
       border-radius: 14px;
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.16);
+      padding: 12px 14px;
     }
 
-    .input input{
+    .field input, .field textarea, .field select{
       width:100%;
       border:none;
       outline:none;
       background: transparent;
       color: var(--text);
-      font-size: 16px;
+      font-size: 15px;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 560px){
+      .row{ grid-template-columns: 1fr; }
     }
 
     .btn{
@@ -229,6 +238,8 @@
       opacity: 1;
       transform: translateX(-50%) translateY(-4px);
     }
+    .toast.good{ border-color: var(--good); }
+    .toast.bad{ border-color: var(--bad); }
   </style>
 </head>
 
@@ -245,31 +256,133 @@
     <div class="hero">
       <section class="card main" id="mainCard">
         <h1>Split group expenses.<br/>Everyone contributes first.</h1>
+
         <p class="sub">
           Prepay is a simpler version of Splitwise: your group pays into a shared pot upfront,
           spends from it, and any leftover money gets split back to everyone proportionally.
         </p>
 
-        <!-- Formspree: replace YOUR_FORM_ID in step 2 below -->
-        <form class="form" id="waitlistForm"
-              action="https://formspree.io/f/YOUR_FORM_ID"
-              method="POST">
-          <div class="input">
-            <span aria-hidden="true">✉️</span>
-            <input id="email" name="email" type="email" placeholder="Enter your email for updates" required />
-          </div>
-          <button class="btn" id="submitBtn" type="submit">Join the waitlist</button>
-        </form>
+        <!-- ✅ Formspree form (your endpoint already added) -->
+        <form class="form" id="waitlistForm" action="https://formspree.io/f/xeejoyrk" method="POST">
 
-        <div class="note">No spam. Just launch updates.</div>
+          <!-- optional: helps you identify where submissions came from -->
+          <input type="hidden" name="source" value="Prepay landing page" />
+
+          <div class="row">
+            <div class="field">
+              <input type="text" name="name" placeholder="Name (optional)" />
+            </div>
+            <div class="field">
+              <input type="email" name="email" placeholder="Email (so I can reply)" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <select name="use_case">
+              <option value="" selected>What would you use Prepay for?</option>
+              <option>Trips</option>
+              <option>House share bills</option>
+              <option>Dinners / nights out</option>
+              <option>Events / birthdays</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <select name="biggest_problem">
+              <option value="" selected>What’s the biggest pain point today?</option>
+              <option>People forget to pay</option>
+              <option>Awkward reminders</option>
+              <option>Uneven splits / confusion</option>
+              <option>Too much admin</option>
+              <option>Refunds / leftovers are messy</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <textarea name="message" rows="4" placeholder="Any questions, feedback, or feature requests?"></textarea>
+          </div>
+
+          <button class="btn" id="submitBtn" type="submit">Join the waitlist</button>
+          <div class="note">No spam. Just launch updates. You can reply directly to my email.</div>
+        </form>
 
         <ul class="bullets">
           <li><span class="dot"></span><span><strong>No chasing people</strong> — everyone is settled from the start.</span></li>
           <li><span class="dot"></span><span><strong>Fair leftovers</strong> — any remaining balance is refunded proportionally.</span></li>
-          <li><span class="dot"></span><span><strong>Perfect for</strong> trips, dinners, events, house shares.</span></li>
+          <li><span class="dot"></span><span><strong>Best for</strong> trips, dinners, events, house shares.</span></li>
         </ul>
       </section>
 
       <aside class="card side" id="sideCard">
         <h2>How it works</h2>
-        <div class="step"><strong>1)</strong> C
+        <div class="step"><strong>1)</strong> Create a group pot for a trip / event / shared spend.</div>
+        <div class="step"><strong>2)</strong> Everyone contributes upfront (any amount or suggested split).</div>
+        <div class="step"><strong>3)</strong> Pay expenses from the pot as you go.</div>
+        <div class="step"><strong>4)</strong> Leftover balance gets refunded proportionally — automatically.</div>
+
+        <h2 style="margin-top:18px;">Why people want this</h2>
+        <div class="step">✔️ Clear budget • ✔️ Fewer awkward reminders • ✔️ Cleaner refunds</div>
+      </aside>
+    </div>
+
+    <div class="toast" id="toast">Sending…</div>
+  </div>
+
+  <script>
+    // Light-follow hover effect on cards
+    function attachGlow(card){
+      card.addEventListener("mousemove", (e) => {
+        const r = card.getBoundingClientRect();
+        const mx = ((e.clientX - r.left) / r.width) * 100;
+        const my = ((e.clientY - r.top) / r.height) * 100;
+        card.style.setProperty("--mx", mx + "%");
+        card.style.setProperty("--my", my + "%");
+      });
+    }
+    attachGlow(document.getElementById("mainCard"));
+    attachGlow(document.getElementById("sideCard"));
+
+    // Form UX: submit via fetch so we can show success without leaving the page
+    const form = document.getElementById("waitlistForm");
+    const btn = document.getElementById("submitBtn");
+    const toast = document.getElementById("toast");
+
+    function showToast(text, good=true){
+      toast.textContent = text;
+      toast.classList.remove("good","bad");
+      toast.classList.add(good ? "good" : "bad");
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3200);
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      const old = btn.textContent;
+      btn.textContent = "Sending…";
+      showToast("Sending…", true);
+
+      try{
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { "Accept": "application/json" }
+        });
+
+        if(res.ok){
+          showToast("Thanks! You’re on the waitlist ✅", true);
+          form.reset();
+        } else {
+          showToast("Hmm—something went wrong. Please try again.", false);
+        }
+      } catch(err){
+        showToast("Network error. Please try again.", false);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = old;
+      }
+    });
+  </script>
+</body>
+</html>
