@@ -489,7 +489,7 @@
     const sliderCard = document.getElementById("sliderCard");
     sliderCard.tabIndex = 0;
 
-    let autoplay = setInterval(() => goTo(index + 1), 5000);
+    let autoplay = setInterval(() => goTo(index + 1), 1000);
     sliderCard.addEventListener("mouseenter", () => clearInterval(autoplay));
     sliderCard.addEventListener("mouseleave", () => autoplay = setInterval(() => goTo(index + 1), 5000));
     sliderCard.addEventListener("keydown", (e) => {
