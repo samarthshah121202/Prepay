@@ -34,18 +34,18 @@
     }
 
     .wrap{
-      max-width: 1100px;
+      max-width: 980px;
       margin: 0 auto;
       padding: 56px 18px 40px;
     }
 
-    /* Top bar */
+    /* Header */
     .nav{
       display:flex;
       justify-content:space-between;
       align-items:center;
       gap:16px;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .brand{
@@ -81,19 +81,11 @@
       white-space: nowrap;
     }
 
-    /* Layout */
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 18px;
-      align-items:start;
-    }
-    @media (max-width: 980px){
-      .grid{ grid-template-columns: 1fr; }
+    @media (max-width: 720px){
       .pill{ display:none; }
     }
 
-    /* Cards */
+    /* Main card */
     .card{
       border-radius: var(--radius);
       border: 1px solid var(--stroke);
@@ -113,7 +105,6 @@
       opacity:0.9;
     }
 
-    /* Hero */
     h1{
       margin: 0 0 10px;
       font-size: clamp(34px, 4.5vw, 54px);
@@ -124,30 +115,26 @@
       margin: 0 0 14px;
       color: var(--muted);
       font-size: 18px;
-      max-width: 62ch;
+      max-width: 68ch;
     }
 
-    .bullets{
-      margin: 14px 0 0;
-      padding: 0;
-      list-style: none;
-      display:grid;
+    .miniRow{
+      display:flex;
+      flex-wrap: wrap;
       gap: 10px;
-      color: var(--muted);
-      font-size: 15px;
-    }
-    .bullets li{ display:flex; gap:10px; align-items:flex-start; }
-    .dot{
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      margin-top: 6px;
-      background: rgba(255,255,255,0.7);
-      box-shadow: 0 0 0 6px rgba(255,255,255,0.06);
-      flex: 0 0 auto;
+      align-items:center;
+      margin: 12px 0 6px;
     }
 
     /* Slider */
+    .slider{
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+    }
+
     .sliderTop{
       display:flex;
       align-items:center;
@@ -157,8 +144,9 @@
     }
     .sliderTitle{
       margin: 0;
-      font-size: 18px;
+      font-size: 16px;
       letter-spacing: -0.2px;
+      color: rgba(255,255,255,0.88);
     }
     .sliderBtns{ display:flex; gap: 8px; }
 
@@ -187,15 +175,31 @@
       transform: translateX(0%);
       transition: transform 260ms ease;
     }
+
+    /* Each slide = screenshot + step text */
     .slide{
       min-width: 100%;
       padding: 16px;
+      display:grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 16px;
+      align-items:center;
+    }
+
+    @media (max-width: 840px){
+      .slide{
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .shot{
       display:flex;
       justify-content:center;
       align-items:center;
+      padding: 6px;
     }
-    .slide img{
-      width: min(360px, 78vw);
+    .shot img{
+      width: min(320px, 78vw);
       height: auto;
       border-radius: 22px;
       box-shadow: 0 18px 50px rgba(0,0,0,0.45);
@@ -203,6 +207,46 @@
       user-select: none;
       -webkit-user-drag: none;
     }
+
+    .stepCard{
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.74);
+      margin-bottom: 8px;
+    }
+    .num{
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      font-weight: 900;
+      background: var(--accent);
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .stepTitle{
+      margin: 0 0 8px;
+      font-size: 18px;
+      letter-spacing: -0.2px;
+    }
+    .stepText{
+      margin: 0;
+      color: rgba(255,255,255,0.72);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
     .dots{
       display:flex;
       justify-content:center;
@@ -219,39 +263,6 @@
     }
     .dotBtn.active{ background: rgba(255,255,255,0.92); }
 
-    /* How it works (inside slider) */
-    .how{
-      margin-top: 16px;
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-    @media (max-width: 720px){
-      .how{ grid-template-columns: 1fr 1fr; }
-    }
-    .howStep{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      padding: 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.85);
-      font-size: 14px;
-    }
-    .howStep .num{
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      display:grid;
-      place-items:center;
-      font-weight: 900;
-      background: var(--accent);
-      color: white;
-      flex-shrink: 0;
-    }
-
     /* Form */
     .form{
       margin-top: 16px;
@@ -267,7 +278,6 @@
       .row{ grid-template-columns: 1fr; }
     }
 
-    /* Form polish + readable dropdowns */
     .field{
       border-radius: 14px;
       background: rgba(255,255,255,0.08);
@@ -300,9 +310,7 @@
       cursor: pointer;
     }
 
-    .field.selectWrap{
-      position: relative;
-    }
+    .field.selectWrap{ position: relative; }
     .field.selectWrap::after{
       content: "▾";
       position: absolute;
@@ -343,24 +351,8 @@
       font-size: 13px;
     }
 
-    /* Side content */
-    .side h2{
-      margin: 0 0 10px;
-      font-size: 18px;
-      letter-spacing:-0.2px;
-    }
-    .step{
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.06);
-      padding: 14px;
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
     footer{
-      margin-top: 18px;
+      margin-top: 16px;
       text-align:center;
       color: rgba(255,255,255,0.55);
       font-size: 13px;
@@ -403,117 +395,138 @@
       <div class="pill">Like Splitwise — but paid upfront</div>
     </div>
 
-    <div class="grid">
-      <!-- Left column -->
-      <section class="card" id="heroCard">
-        <h1>Everyone pays first.<br/>Leftovers split back fairly.</h1>
+    <!-- ONE CARD ONLY -->
+    <section class="card" id="mainCard">
+      <h1>Everyone pays first.<br/>Leftovers split back fairly.</h1>
 
-        <p class="sub">
-          Prepay is a group spending pot for trips, dinners, and shared bills.
-          Everyone contributes upfront, you spend from the pot, and any remaining balance is refunded proportionally.
-        </p>
+      <p class="sub">
+        Prepay is a group spending pot for trips, dinners, and shared bills.
+        Everyone contributes upfront, you spend from the pot, and any remaining balance is refunded proportionally.
+      </p>
 
-        <div class="pill" style="display:inline-block; margin-top: 6px;">
-          Waitlist is open — early access soon
+      <div class="miniRow">
+        <div class="pill">Waitlist is open — early access soon</div>
+        <div class="pill">Refunds done automatically</div>
+      </div>
+
+      <!-- SLIDER (each slide includes a step) -->
+      <section class="slider" id="sliderCard" aria-label="How Prepay works">
+        <div class="sliderTop">
+          <h2 class="sliderTitle">How it works</h2>
+          <div class="sliderBtns">
+            <button class="iconBtn" type="button" id="prevBtn" aria-label="Previous step">‹</button>
+            <button class="iconBtn" type="button" id="nextBtn" aria-label="Next step">›</button>
+          </div>
         </div>
 
-        <!-- Slider + How it works -->
-        <section class="card" id="sliderCard" style="padding:16px; margin-top:14px;" aria-label="App preview screenshots">
-          <div class="sliderTop">
-            <h2 class="sliderTitle">App preview</h2>
-            <div class="sliderBtns">
-              <button class="iconBtn" type="button" id="prevBtn" aria-label="Previous screenshot">‹</button>
-              <button class="iconBtn" type="button" id="nextBtn" aria-label="Next screenshot">›</button>
+        <div class="viewport">
+          <div class="track" id="track">
+
+            <div class="slide">
+              <div class="shot">
+                <img src="images/screen1.PNG" alt="Create a pot screenshot" />
+              </div>
+              <div class="stepCard">
+                <div class="kicker"><span class="num">1</span> Step 1</div>
+                <h3 class="stepTitle">Create a pot</h3>
+                <p class="stepText">
+                  Start a pot for a trip, dinner, event, or household bills. Invite your friends and set the currency.
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div class="viewport">
-            <div class="track" id="track">
-              <div class="slide"><img src="images/screen1.PNG" alt="Prepay Groups screen" /></div>
-              <div class="slide"><img src="images/screen2.PNG" alt="Prepay Money back screen" /></div>
-              <div class="slide"><img src="images/screen3.PNG" alt="Prepay Trip details screen" /></div>
+            <div class="slide">
+              <div class="shot">
+                <img src="images/screen2.PNG" alt="Everyone contributes screenshot" />
+              </div>
+              <div class="stepCard">
+                <div class="kicker"><span class="num">2</span> Step 2</div>
+                <h3 class="stepTitle">Everyone contributes upfront</h3>
+                <p class="stepText">
+                  Each person pays into the pot before spending begins. No chasing — everything is settled from the start.
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div class="dots" id="dots" aria-label="Screenshot navigation"></div>
-
-          <div class="how" aria-label="How it works">
-            <div class="howStep"><span class="num">1</span><span>Create a pot</span></div>
-            <div class="howStep"><span class="num">2</span><span>Everyone contributes</span></div>
-            <div class="howStep"><span class="num">3</span><span>Spend together</span></div>
-            <div class="howStep"><span class="num">4</span><span>Leftovers refunded</span></div>
-          </div>
-        </section>
-
-        <!-- Formspree -->
-        <form class="form" id="waitlistForm" action="https://formspree.io/f/xeejoyrk" method="POST">
-          <input type="hidden" name="source" value="Prepay landing page" />
-
-          <div class="row">
-            <div class="field">
-              <input type="text" name="name" placeholder="Name (optional)" />
+            <div class="slide">
+              <div class="shot">
+                <img src="images/screen3.PNG" alt="Spend together screenshot" />
+              </div>
+              <div class="stepCard">
+                <div class="kicker"><span class="num">3</span> Step 3</div>
+                <h3 class="stepTitle">Spend together</h3>
+                <p class="stepText">
+                  Track spend from the shared balance. Everyone can see what’s left in real time.
+                </p>
+              </div>
             </div>
-            <div class="field">
-              <input type="email" name="email" placeholder="Email (so I can reply)" required />
+
+            <!-- Optional 4th step without a new screenshot:
+                 Reuse one image or add screen4.PNG later -->
+            <div class="slide">
+              <div class="shot">
+                <img src="images/screen2.PNG" alt="Leftovers refunded screenshot" />
+              </div>
+              <div class="stepCard">
+                <div class="kicker"><span class="num">4</span> Step 4</div>
+                <h3 class="stepTitle">Leftovers refunded proportionally</h3>
+                <p class="stepText">
+                  When the trip/event is over, any remaining money is split back fairly based on how much each person contributed.
+                </p>
+              </div>
             </div>
+
           </div>
+        </div>
 
-          <div class="field selectWrap">
-            <select name="use_case" required>
-              <option value="" selected disabled>What would you use Prepay for?</option>
-              <option value="trip">Trip with friends</option>
-              <option value="house">Household bills</option>
-              <option value="dinners">Dinners / nights out</option>
-              <option value="events">Events / birthdays</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
-          <div class="field selectWrap">
-            <select name="biggest_problem" required>
-              <option value="" selected disabled>What’s the hardest part of splitting money?</option>
-              <option value="chasing">Chasing people to pay</option>
-              <option value="confusing">Keeping track / who owes what</option>
-              <option value="fairness">Fair splits when people pay different amounts</option>
-              <option value="leftovers">Refunding leftovers cleanly</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <textarea name="message" rows="4" placeholder="Any questions or features you’d want? (optional)"></textarea>
-          </div>
-
-          <button class="btn" id="submitBtn" type="submit">Join the waitlist</button>
-          <div class="note">No spam. Just launch updates. You can reply directly to submissions.</div>
-        </form>
-
-        <ul class="bullets">
-          <li><span class="dot"></span><span><strong>No chasing people</strong> — everyone is settled from the start.</span></li>
-          <li><span class="dot"></span><span><strong>Fair leftovers</strong> — remaining balance refunded proportionally.</span></li>
-          <li><span class="dot"></span><span><strong>Great for</strong> trips, dinners, events, house shares.</span></li>
-        </ul>
+        <div class="dots" id="dots" aria-label="Step navigation"></div>
       </section>
 
-      <!-- Right column -->
-      <aside class="card side" id="sideCard">
-        <h2>Key benefits</h2>
-        <div class="step">✔️ Everyone pays upfront (no debt building up)</div>
-        <div class="step">✔️ Transparent balance for the whole group</div>
-        <div class="step">✔️ Leftovers refunded proportionally</div>
+      <!-- FORM -->
+      <form class="form" id="waitlistForm" action="https://formspree.io/f/xeejoyrk" method="POST">
+        <input type="hidden" name="source" value="Prepay landing page" />
 
-        <h2 style="margin-top:18px;">Example</h2>
-        <div class="step">
-          4 friends put in £50 each (£200). You spend £150.<br/>
-          £50 leftover gets refunded based on how much each person put in.
+        <div class="row">
+          <div class="field">
+            <input type="text" name="name" placeholder="Name (optional)" />
+          </div>
+          <div class="field">
+            <input type="email" name="email" placeholder="Email (so I can reply)" required />
+          </div>
         </div>
 
-        <h2 style="margin-top:18px;">What’s coming</h2>
-        <div class="step">✔️ Simple setup • ✔️ Fast contributions • ✔️ Quick refunds</div>
-      </aside>
-    </div>
+        <div class="field selectWrap">
+          <select name="use_case" required>
+            <option value="" selected disabled>What would you use Prepay for?</option>
+            <option value="trip">Trip with friends</option>
+            <option value="house">Household bills</option>
+            <option value="dinners">Dinners / nights out</option>
+            <option value="events">Events / birthdays</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
 
-    <footer>© <span id="year"></span> Prepay. Built in public.</footer>
+        <div class="field selectWrap">
+          <select name="biggest_problem" required>
+            <option value="" selected disabled>What’s the hardest part of splitting money?</option>
+            <option value="chasing">Chasing people to pay</option>
+            <option value="confusing">Keeping track / who owes what</option>
+            <option value="fairness">Fair splits when people pay different amounts</option>
+            <option value="leftovers">Refunding leftovers cleanly</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <textarea name="message" rows="4" placeholder="Any questions or features you’d want? (optional)"></textarea>
+        </div>
+
+        <button class="btn" id="submitBtn" type="submit">Join the waitlist</button>
+        <div class="note">No spam. Just launch updates. You can reply directly to submissions.</div>
+      </form>
+
+      <footer>© <span id="year"></span> Prepay. Built in public.</footer>
+    </section>
 
     <div class="toast" id="toast">Sending…</div>
   </div>
@@ -522,19 +535,15 @@
     // Year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Light-follow hover effect (FIXED: using e.clientY for my)
-    function attachGlow(card){
-      card.addEventListener("mousemove", (e) => {
-        const r = card.getBoundingClientRect();
-        const mx = ((e.clientX - r.left) / r.width) * 100;
-        const my = ((e.clientY - r.top) / r.height) * 100;
-        card.style.setProperty("--mx", mx + "%");
-        card.style.setProperty("--my", my + "%");
-      });
-    }
-    attachGlow(document.getElementById("heroCard"));
-    attachGlow(document.getElementById("sideCard"));
-    attachGlow(document.getElementById("sliderCard"));
+    // Light-follow hover effect (for the one card)
+    const mainCard = document.getElementById("mainCard");
+    mainCard.addEventListener("mousemove", (e) => {
+      const r = mainCard.getBoundingClientRect();
+      const mx = ((e.clientX - r.left) / r.width) * 100;
+      const my = ((e.clientY - r.top) / r.height) * 100;
+      mainCard.style.setProperty("--mx", mx + "%");
+      mainCard.style.setProperty("--my", my + "%");
+    });
 
     // Slider
     const track = document.getElementById("track");
@@ -548,7 +557,7 @@
       const b = document.createElement("button");
       b.type = "button";
       b.className = "dotBtn" + (i === 0 ? " active" : "");
-      b.setAttribute("aria-label", `Go to screenshot ${i + 1}`);
+      b.setAttribute("aria-label", `Go to step ${i + 1}`);
       b.addEventListener("click", () => goTo(i));
       dotsWrap.appendChild(b);
       return b;
@@ -562,6 +571,7 @@
       index = (i + slides.length) % slides.length;
       update();
     }
+
     prevBtn.addEventListener("click", () => goTo(index - 1));
     nextBtn.addEventListener("click", () => goTo(index + 1));
 
@@ -569,9 +579,9 @@
     const sliderCard = document.getElementById("sliderCard");
     sliderCard.tabIndex = 0;
 
-    let autoplay = setInterval(() => goTo(index + 1), 3500);
+    let autoplay = setInterval(() => goTo(index + 1), 4500);
     sliderCard.addEventListener("mouseenter", () => clearInterval(autoplay));
-    sliderCard.addEventListener("mouseleave", () => autoplay = setInterval(() => goTo(index + 1), 5000));
+    sliderCard.addEventListener("mouseleave", () => autoplay = setInterval(() => goTo(index + 1), 4500));
     sliderCard.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft") goTo(index - 1);
       if (e.key === "ArrowRight") goTo(index + 1);
@@ -620,3 +630,4 @@
   </script>
 </body>
 </html>
+
