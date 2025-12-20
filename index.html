@@ -17,6 +17,7 @@
       --radius: 22px;
       --good: rgba(0,255,170,0.25);
       --bad: rgba(255,95,120,0.22);
+      --accent: rgba(120,95,255,0.55);
     }
 
     * { box-sizing: border-box; }
@@ -33,10 +34,8 @@
       overflow-x:hidden;
     }
 
-    a { color: inherit; }
-
     .wrap{
-      max-width: 1060px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 56px 18px 40px;
     }
@@ -236,12 +235,14 @@
       .row{ grid-template-columns: 1fr; }
     }
 
+    /* ---- Form polish + readable dropdowns ---- */
     .field{
       border-radius: 14px;
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.16);
       padding: 12px 14px;
     }
+
     .field input, .field textarea, .field select{
       width:100%;
       border:none;
@@ -252,7 +253,44 @@
       font-family: inherit;
       resize: vertical;
     }
-    .field select option{ color: #0b0f19; }
+
+    .field input::placeholder,
+    .field textarea::placeholder{
+      color: rgba(255,255,255,0.55);
+    }
+
+    .field select{
+      color: rgba(255,255,255,0.92);
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      padding-right: 42px;
+      cursor: pointer;
+    }
+
+    .field.selectWrap{
+      position: relative;
+    }
+    .field.selectWrap::after{
+      content: "▾";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.75);
+      pointer-events: none;
+      font-size: 14px;
+    }
+
+    .field select option{
+      background: #0b0f19;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .field:focus-within{
+      border-color: rgba(255,255,255,0.28);
+      box-shadow: 0 0 0 4px rgba(120,95,255,0.18);
+    }
 
     .btn{
       padding: 12px 16px;
@@ -343,6 +381,10 @@
           Everyone contributes upfront, you spend from the pot, and any remaining balance is refunded proportionally.
         </p>
 
+        <div class="pill" style="display:inline-block; margin-top: 6px;">
+          Waitlist is open — early access soon
+        </div>
+
         <!-- Slider -->
         <section class="card" id="sliderCard" style="padding:16px; margin-top:14px;" aria-label="App preview screenshots">
           <div class="sliderTop">
@@ -377,30 +419,34 @@
             </div>
           </div>
 
-          <div class="field">
-            <select name="use_case">
-              <option value="" selected>What would you use Prepay for?</option>
-              <option>Trips</option>
-              <option>House share bills</option>
-              <option>Dinners / nights out</option>
-              <option>Events / birthdays</option>
-              <option>Other</option>
+          <div class="field selectWrap">
+            <select name="use_case" required>
+              <option value="" selected disabled>What would you use Prepay for?</option>
+              <option value="trip">Trip with friends</option>
+              <option value="house">Household bills</option>
+              <option value="dinners">Dinners / nights out</option>
+              <option value="events">Events / birthdays</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="field selectWrap">
+            <select name="biggest_problem" required>
+              <option value="" selected disabled>What’s the hardest part of splitting money?</option>
+              <option value="chasing">Chasing people to pay</option>
+              <option value="confusing">Keeping track / who owes what</option>
+              <option value="fairness">Fair splits when people pay different amounts</option>
+              <option value="leftovers">Refunding leftovers cleanly</option>
+              <option value="other">Other</option>
             </select>
           </div>
 
           <div class="field">
-            <select name="biggest_problem">
-              <option value="" selected>What’s the biggest pain point today?</option>
-              <option>People forget to pay</option>
-              <option>Awkward reminders</option>
-              <option>Uneven splits / confusion</option>
-              <option>Too much admin</option>
-              <option>Refunds / leftovers are messy</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <textarea name="message" rows="4" placeholder="Any questions, feedback, or feature requests?"></textarea>
+            <textarea
+              name="message"
+              rows="4"
+              placeholder="Any questions or features you’d want? (optional)"
+            ></textarea>
           </div>
 
           <button class="btn" id="submitBtn" type="submit">Join the waitlist</button>
@@ -418,125 +464,3 @@
       <aside class="card side" id="sideCard">
         <h2>How it works</h2>
         <div class="step"><strong>1)</strong> Create a pot for a trip / event / shared spend.</div>
-        <div class="step"><strong>2)</strong> Everyone contributes upfront.</div>
-        <div class="step"><strong>3)</strong> Pay expenses from the pot.</div>
-        <div class="step"><strong>4)</strong> Leftover balance is refunded proportionally.</div>
-
-        <h2 style="margin-top:18px;">What’s coming</h2>
-        <div class="step">✔️ Simple setup • ✔️ Transparent balances • ✔️ Quick refunds</div>
-
-        <h2 style="margin-top:18px;">Example</h2>
-        <div class="step">
-          4 friends put in £50 each (£200). You spend £150.<br/>
-          £50 leftover gets refunded based on how much each person put in.
-        </div>
-      </aside>
-    </div>
-
-    <footer>© <span id="year"></span> Prepay. Built in public.</footer>
-
-    <div class="toast" id="toast">Sending…</div>
-  </div>
-
-  <script>
-    // Year
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // Light-follow hover effect
-    function attachGlow(card){
-      card.addEventListener("mousemove", (e) => {
-        const r = card.getBoundingClientRect();
-        const mx = ((e.clientX - r.left) / r.width) * 100;
-        const my = ((e.clientY - r.top) / r.height) * 100;
-        card.style.setProperty("--mx", mx + "%");
-        card.style.setProperty("--my", my + "%");
-      });
-    }
-    attachGlow(document.getElementById("heroCard"));
-    attachGlow(document.getElementById("sideCard"));
-    attachGlow(document.getElementById("sliderCard"));
-
-    // Slider
-    const track = document.getElementById("track");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const dotsWrap = document.getElementById("dots");
-    const slides = Array.from(track.children);
-    let index = 0;
-
-    const dots = slides.map((_, i) => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "dotBtn" + (i === 0 ? " active" : "");
-      b.setAttribute("aria-label", `Go to screenshot ${i + 1}`);
-      b.addEventListener("click", () => goTo(i));
-      dotsWrap.appendChild(b);
-      return b;
-    });
-
-    function update(){
-      track.style.transform = `translateX(-${index * 100}%)`;
-      dots.forEach((d, i) => d.classList.toggle("active", i === index));
-    }
-    function goTo(i){
-      index = (i + slides.length) % slides.length;
-      update();
-    }
-    prevBtn.addEventListener("click", () => goTo(index - 1));
-    nextBtn.addEventListener("click", () => goTo(index + 1));
-
-    // Autoplay (pause on hover)
-    const sliderCard = document.getElementById("sliderCard");
-    sliderCard.tabIndex = 0;
-
-    let autoplay = setInterval(() => goTo(index + 1), 2000);
-    sliderCard.addEventListener("mouseenter", () => clearInterval(autoplay));
-    sliderCard.addEventListener("mouseleave", () => autoplay = setInterval(() => goTo(index + 1), 5000));
-    sliderCard.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") goTo(index - 1);
-      if (e.key === "ArrowRight") goTo(index + 1);
-    });
-
-    // Toast + Form (submit without leaving page)
-    const form = document.getElementById("waitlistForm");
-    const btn = document.getElementById("submitBtn");
-    const toast = document.getElementById("toast");
-
-    function showToast(text, good=true){
-      toast.textContent = text;
-      toast.classList.remove("good","bad");
-      toast.classList.add(good ? "good" : "bad");
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 3200);
-    }
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      btn.disabled = true;
-      const old = btn.textContent;
-      btn.textContent = "Sending…";
-      showToast("Sending…", true);
-
-      try{
-        const res = await fetch(form.action, {
-          method: "POST",
-          body: new FormData(form),
-          headers: { "Accept": "application/json" }
-        });
-
-        if(res.ok){
-          showToast("Thanks! You’re on the waitlist ✅", true);
-          form.reset();
-        } else {
-          showToast("Something went wrong. Try again.", false);
-        }
-      } catch(err){
-        showToast("Network error. Please try again.", false);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = old;
-      }
-    });
-  </script>
-</body>
-</html>
