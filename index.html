@@ -97,5 +97,526 @@
     .card{
       border-radius: var(--radius);
       border: 1px solid var(--stroke);
-      background: linear-gradient(180deg, var(--card), rgba(255,255,255,0
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.06));
+      box-shadow: var(--shadow);
+      padding: 22px;
+      position: relative;
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(700px 260px at var(--mx, 50%) var(--my, 10%), rgba(255,255,255,0.14), transparent 60%);
+      pointer-events:none;
+      opacity:0.9;
+    }
 
+    /* Hero */
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(34px, 4.5vw, 54px);
+      line-height: 1.02;
+      letter-spacing: -0.9px;
+    }
+    .sub{
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 62ch;
+    }
+
+    .bullets{
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      display:grid;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .bullets li{ display:flex; gap:10px; align-items:flex-start; }
+    .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      margin-top: 6px;
+      background: rgba(255,255,255,0.7);
+      box-shadow: 0 0 0 6px rgba(255,255,255,0.06);
+      flex: 0 0 auto;
+    }
+
+    /* Slider */
+    .sliderTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .sliderTitle{
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.2px;
+    }
+    .sliderBtns{ display:flex; gap: 8px; }
+
+    .iconBtn{
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.92);
+      font-size: 22px;
+      cursor: pointer;
+    }
+    .iconBtn:hover{ filter: brightness(1.08); }
+    .iconBtn:active{ transform: translateY(1px); }
+
+    .viewport{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      overflow: hidden;
+    }
+    .track{
+      display:flex;
+      width: 100%;
+      transform: translateX(0%);
+      transition: transform 260ms ease;
+    }
+    .slide{
+      min-width: 100%;
+      padding: 16px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .slide img{
+      width: min(360px, 78vw);
+      height: auto;
+      border-radius: 22px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.14);
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .dots{
+      display:flex;
+      justify-content:center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .dotBtn{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.12);
+      cursor:pointer;
+    }
+    .dotBtn.active{ background: rgba(255,255,255,0.92); }
+
+    /* How it works (inside slider) */
+    .how{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 720px){
+      .how{ grid-template-columns: 1fr 1fr; }
+    }
+    .howStep{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.85);
+      font-size: 14px;
+    }
+    .howStep .num{
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      font-weight: 900;
+      background: var(--accent);
+      color: white;
+      flex-shrink: 0;
+    }
+
+    /* Form */
+    .form{
+      margin-top: 16px;
+      display:grid;
+      gap: 10px;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 560px){
+      .row{ grid-template-columns: 1fr; }
+    }
+
+    /* Form polish + readable dropdowns */
+    .field{
+      border-radius: 14px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 12px 14px;
+    }
+
+    .field input, .field textarea, .field select{
+      width:100%;
+      border:none;
+      outline:none;
+      background: transparent;
+      color: var(--text);
+      font-size: 15px;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder{
+      color: rgba(255,255,255,0.55);
+    }
+
+    .field select{
+      color: rgba(255,255,255,0.92);
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      padding-right: 42px;
+      cursor: pointer;
+    }
+
+    .field.selectWrap{
+      position: relative;
+    }
+    .field.selectWrap::after{
+      content: "▾";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.75);
+      pointer-events: none;
+      font-size: 14px;
+    }
+
+    .field select option{
+      background: #0b0f19;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .field:focus-within{
+      border-color: rgba(255,255,255,0.28);
+      box-shadow: 0 0 0 4px rgba(120,95,255,0.18);
+    }
+
+    .btn{
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.92);
+      color: #0b0f19;
+      font-weight: 900;
+      cursor:pointer;
+      transition: transform 140ms ease, filter 140ms ease;
+    }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(0.98); }
+    .btn:disabled{ opacity: 0.55; cursor:not-allowed; transform:none; }
+
+    .note{
+      margin-top: 8px;
+      color: rgba(255,255,255,0.62);
+      font-size: 13px;
+    }
+
+    /* Side content */
+    .side h2{
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing:-0.2px;
+    }
+    .step{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      padding: 14px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer{
+      margin-top: 18px;
+      text-align:center;
+      color: rgba(255,255,255,0.55);
+      font-size: 13px;
+    }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(10,14,26,0.86);
+      border: 1px solid rgba(255,255,255,0.16);
+      color: rgba(255,255,255,0.92);
+      padding: 12px 14px;
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease, transform 200ms ease;
+      font-size: 14px;
+      max-width: min(560px, 92vw);
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-4px);
+    }
+    .toast.good{ border-color: var(--good); }
+    .toast.bad{ border-color: var(--bad); }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">P</div>
+        <div>Prepay</div>
+      </div>
+      <div class="pill">Like Splitwise — but paid upfront</div>
+    </div>
+
+    <div class="grid">
+      <!-- Left column -->
+      <section class="card" id="heroCard">
+        <h1>Everyone pays first.<br/>Leftovers split back fairly.</h1>
+
+        <p class="sub">
+          Prepay is a group spending pot for trips, dinners, and shared bills.
+          Everyone contributes upfront, you spend from the pot, and any remaining balance is refunded proportionally.
+        </p>
+
+        <div class="pill" style="display:inline-block; margin-top: 6px;">
+          Waitlist is open — early access soon
+        </div>
+
+        <!-- Slider + How it works -->
+        <section class="card" id="sliderCard" style="padding:16px; margin-top:14px;" aria-label="App preview screenshots">
+          <div class="sliderTop">
+            <h2 class="sliderTitle">App preview</h2>
+            <div class="sliderBtns">
+              <button class="iconBtn" type="button" id="prevBtn" aria-label="Previous screenshot">‹</button>
+              <button class="iconBtn" type="button" id="nextBtn" aria-label="Next screenshot">›</button>
+            </div>
+          </div>
+
+          <div class="viewport">
+            <div class="track" id="track">
+              <div class="slide"><img src="images/screen1.PNG" alt="Prepay Groups screen" /></div>
+              <div class="slide"><img src="images/screen2.PNG" alt="Prepay Money back screen" /></div>
+              <div class="slide"><img src="images/screen3.PNG" alt="Prepay Trip details screen" /></div>
+            </div>
+          </div>
+
+          <div class="dots" id="dots" aria-label="Screenshot navigation"></div>
+
+          <div class="how" aria-label="How it works">
+            <div class="howStep"><span class="num">1</span><span>Create a pot</span></div>
+            <div class="howStep"><span class="num">2</span><span>Everyone contributes</span></div>
+            <div class="howStep"><span class="num">3</span><span>Spend together</span></div>
+            <div class="howStep"><span class="num">4</span><span>Leftovers refunded</span></div>
+          </div>
+        </section>
+
+        <!-- Formspree -->
+        <form class="form" id="waitlistForm" action="https://formspree.io/f/xeejoyrk" method="POST">
+          <input type="hidden" name="source" value="Prepay landing page" />
+
+          <div class="row">
+            <div class="field">
+              <input type="text" name="name" placeholder="Name (optional)" />
+            </div>
+            <div class="field">
+              <input type="email" name="email" placeholder="Email (so I can reply)" required />
+            </div>
+          </div>
+
+          <div class="field selectWrap">
+            <select name="use_case" required>
+              <option value="" selected disabled>What would you use Prepay for?</option>
+              <option value="trip">Trip with friends</option>
+              <option value="house">Household bills</option>
+              <option value="dinners">Dinners / nights out</option>
+              <option value="events">Events / birthdays</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="field selectWrap">
+            <select name="biggest_problem" required>
+              <option value="" selected disabled>What’s the hardest part of splitting money?</option>
+              <option value="chasing">Chasing people to pay</option>
+              <option value="confusing">Keeping track / who owes what</option>
+              <option value="fairness">Fair splits when people pay different amounts</option>
+              <option value="leftovers">Refunding leftovers cleanly</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <textarea name="message" rows="4" placeholder="Any questions or features you’d want? (optional)"></textarea>
+          </div>
+
+          <button class="btn" id="submitBtn" type="submit">Join the waitlist</button>
+          <div class="note">No spam. Just launch updates. You can reply directly to submissions.</div>
+        </form>
+
+        <ul class="bullets">
+          <li><span class="dot"></span><span><strong>No chasing people</strong> — everyone is settled from the start.</span></li>
+          <li><span class="dot"></span><span><strong>Fair leftovers</strong> — remaining balance refunded proportionally.</span></li>
+          <li><span class="dot"></span><span><strong>Great for</strong> trips, dinners, events, house shares.</span></li>
+        </ul>
+      </section>
+
+      <!-- Right column -->
+      <aside class="card side" id="sideCard">
+        <h2>Key benefits</h2>
+        <div class="step">✔️ Everyone pays upfront (no debt building up)</div>
+        <div class="step">✔️ Transparent balance for the whole group</div>
+        <div class="step">✔️ Leftovers refunded proportionally</div>
+
+        <h2 style="margin-top:18px;">Example</h2>
+        <div class="step">
+          4 friends put in £50 each (£200). You spend £150.<br/>
+          £50 leftover gets refunded based on how much each person put in.
+        </div>
+
+        <h2 style="margin-top:18px;">What’s coming</h2>
+        <div class="step">✔️ Simple setup • ✔️ Fast contributions • ✔️ Quick refunds</div>
+      </aside>
+    </div>
+
+    <footer>© <span id="year"></span> Prepay. Built in public.</footer>
+
+    <div class="toast" id="toast">Sending…</div>
+  </div>
+
+  <script>
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Light-follow hover effect (FIXED: using e.clientY for my)
+    function attachGlow(card){
+      card.addEventListener("mousemove", (e) => {
+        const r = card.getBoundingClientRect();
+        const mx = ((e.clientX - r.left) / r.width) * 100;
+        const my = ((e.clientY - r.top) / r.height) * 100;
+        card.style.setProperty("--mx", mx + "%");
+        card.style.setProperty("--my", my + "%");
+      });
+    }
+    attachGlow(document.getElementById("heroCard"));
+    attachGlow(document.getElementById("sideCard"));
+    attachGlow(document.getElementById("sliderCard"));
+
+    // Slider
+    const track = document.getElementById("track");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const dotsWrap = document.getElementById("dots");
+    const slides = Array.from(track.children);
+    let index = 0;
+
+    const dots = slides.map((_, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "dotBtn" + (i === 0 ? " active" : "");
+      b.setAttribute("aria-label", `Go to screenshot ${i + 1}`);
+      b.addEventListener("click", () => goTo(i));
+      dotsWrap.appendChild(b);
+      return b;
+    });
+
+    function update(){
+      track.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle("active", i === index));
+    }
+    function goTo(i){
+      index = (i + slides.length) % slides.length;
+      update();
+    }
+    prevBtn.addEventListener("click", () => goTo(index - 1));
+    nextBtn.addEventListener("click", () => goTo(index + 1));
+
+    // Autoplay (pause on hover)
+    const sliderCard = document.getElementById("sliderCard");
+    sliderCard.tabIndex = 0;
+
+    let autoplay = setInterval(() => goTo(index + 1), 3500);
+    sliderCard.addEventListener("mouseenter", () => clearInterval(autoplay));
+    sliderCard.addEventListener("mouseleave", () => autoplay = setInterval(() => goTo(index + 1), 5000));
+    sliderCard.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") goTo(index - 1);
+      if (e.key === "ArrowRight") goTo(index + 1);
+    });
+
+    // Toast + Form (submit without leaving page)
+    const form = document.getElementById("waitlistForm");
+    const btn = document.getElementById("submitBtn");
+    const toast = document.getElementById("toast");
+
+    function showToast(text, good=true){
+      toast.textContent = text;
+      toast.classList.remove("good","bad");
+      toast.classList.add(good ? "good" : "bad");
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3200);
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      const old = btn.textContent;
+      btn.textContent = "Sending…";
+      showToast("Sending…", true);
+
+      try{
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { "Accept": "application/json" }
+        });
+
+        if(res.ok){
+          showToast("Thanks! You’re on the waitlist ✅", true);
+          form.reset();
+        } else {
+          showToast("Something went wrong. Try again.", false);
+        }
+      } catch(err){
+        showToast("Network error. Please try again.", false);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = old;
+      }
+    });
+  </script>
+</body>
+</html>
